@@ -6,6 +6,7 @@ import ThumbUp from '@material-ui/icons/ThumbUp'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import IconButton from '@material-ui/core/IconButton'
+import Chip from '@material-ui/core/Chip'
 import classNames from 'classnames'
 
 const videos = [
@@ -38,7 +39,9 @@ export function VotingPage() {
     <div className={classes.container}>
       <div className={classes.videoContainer}>
         <header>
-          <div className={classes.logo}>Score</div>
+          <div className={classes.logo}>
+            <img src={'wdf_images/logo-welt.svg'} />
+          </div>
           <div className={classes.score}>Score</div>
         </header>
         <ReactPlayer url={videos[currentIndex].videoUrl} controls width="100%" height="100%" />
@@ -94,7 +97,7 @@ export function VotingPage() {
 }
 
 const useStyles = makeStyles({
-  logo: { position: 'absolute', left: 0, top: 0, width: '100px', height: '50px', backgroundColor: 'red' },
+  logo: { position: 'absolute', left: '10px', top: '10px', width: '10px', height: '50px' },
   score: {
     position: 'absolute',
     width: '50px',
