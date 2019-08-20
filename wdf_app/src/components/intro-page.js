@@ -14,7 +14,6 @@ const useStyles = makeStyles({
   root: {
     width: '400px',
     height: '715px',
-    backgroundColor: 'grey',
     background: 'url("wdf_images/full-landing-page.png")',
     backgroundSize: 'contain',
     position: 'relative',

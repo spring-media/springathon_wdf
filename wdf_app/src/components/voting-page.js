@@ -72,7 +72,8 @@ export function VotingPage() {
       </div>
     </>
   ) : (
-    <Participants data={videos} showThumbs={true} onClick={toggleHasLiked} hasLiked={hasLiked} />
+    <div className={classes.resultPage}>
+    </div>
   )
 
   function handleOnClickLeft() {
@@ -143,5 +144,11 @@ const useStyles = makeStyles({
   },
   buttonRight: {
     right: '10px',
+  },
+  resultPage: {
+    width: '400px',
+    height: '715px',
+    background: 'url("wdf_images/full-results-page.png")',
+    backgroundSize: 'contain',
   },
 })
