@@ -42,29 +42,40 @@ export function VotingPage() {
           <div className={classes.score}>Score</div>
         </header>
         <ReactPlayer url={videos[currentIndex].videoUrl} controls width="100%" height="100%" />
-        <div className={classNames(classes.iconButton, classes.buttonLeft)}>
-          <IconButton color="secondary" onClick={handleOnClickLeft}>
-            <KeyboardArrowLeft />
-          </IconButton>
-        </div>
-        <div className={classNames(classes.iconButton, classes.buttonRight)}>
-          <IconButton color="secondary" onClick={handleOnClickRight}>
-            <KeyboardArrowRight />
-          </IconButton>
-        </div>
+        {currentIndex !== 0 && (
+          <div className={classNames(classes.iconButton, classes.buttonLeft)}>
+            <IconButton color="secondary" onClick={handleOnClickLeft}>
+              <KeyboardArrowLeft />
+            </IconButton>
+          </div>
+        )}
+        {currentIndex !== videos.length - 1 && (
+          <div className={classNames(classes.iconButton, classes.buttonRight)}>
+            <IconButton color="secondary" onClick={handleOnClickRight}>
+              <KeyboardArrowRight />
+            </IconButton>
+          </div>
+        )}
         <div className={classes.menu}>
           <Fab color="secondary">
             <ThumbUp />
           </Fab>
           <div className={classes.participants}>
-            {videos.map((video) => (
-              <div className={classes.portrait} style={{backgroundImage: `url(${video.imageSrc})`}}/>
-            ))}
+            {videos.map((video, index) => {
+              const border = currentIndex === index ? { border: `2px solid ${video.color}` } : {}
+              return (
+                <div
+                  onClick={() => goToIndex(index)}
+                  className={classes.portrait}
+                  style={{ backgroundImage: `url(${video.imageSrc})`, ...border }}
+                />
+              )
+            })}
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 
   function handleOnClickLeft() {
     if (currentIndex !== 0) {
@@ -73,10 +84,12 @@ export function VotingPage() {
   }
 
   function handleOnClickRight() {
-    console.log('current index', currentIndex)
-    if (currentIndex !== videos.length) {
+    if (currentIndex !== videos.length - 1) {
       setCurrentIndex(currentIndex + 1)
     }
+  }
+  function goToIndex(index) {
+    setCurrentIndex(index)
   }
 }
 
@@ -100,6 +113,7 @@ const useStyles = makeStyles({
   },
   videoContainer: {
     width: '400px',
+    height: '715px',
     position: 'relative',
   },
   menu: {
