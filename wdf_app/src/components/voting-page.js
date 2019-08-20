@@ -31,25 +31,26 @@ const videos = [
   // { videoUrl: '', imageSrc: '', name: 'Karl Lauterbach', color: 'blue' },
 ]
 
-const scores = [500, 400, 200]
+const startingScores = [500, 400, 200]
 
-export function VotingPage() {
+export function VotingPage({ moveToPage }) {
   const classes = useStyles()
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [scores, setScores] = useState([500, 200, 400])
+  const [scores, setScores] = useState(startingScores)
+  const [hasLiked, setHasLiked] = useState([false, false, false])
 
   return (
     <div className={classes.container}>
       <div className={classes.videoContainer}>
         <header>
           <div className={classes.logo}>
-            <img src={'wdf_images/logo-welt.svg'} />
+            <img alt="Die Welt logo" src={'wdf_images/logo-welt.svg'} />
           </div>
           <div className={classes.score}>
             <Chip label={scores[currentIndex]} icon={<ThumbUp color="secondary" />} />
           </div>
         </header>
-        <ReactPlayer url={videos[currentIndex].videoUrl} controls width="100%" height="100%" />
+        <ReactPlayer url={videos[currentIndex].videoUrl} controls width="100%" height="100%" onEnded={handleVideoEnd} />
         {currentIndex !== 0 && (
           <div className={classNames(classes.iconButton, classes.buttonLeft)}>
             <IconButton color="secondary" onClick={handleOnClickLeft}>
@@ -65,7 +66,7 @@ export function VotingPage() {
           </div>
         )}
         <div className={classes.menu}>
-          <Fab color="secondary" onClick={addScore}>
+          <Fab color={hasLiked[currentIndex] ? 'secondary' : 'primary'} onClick={toggleHasLiked}>
             <ThumbUp />
           </Fab>
           <div className={classes.participants}>
@@ -73,6 +74,7 @@ export function VotingPage() {
               const border = currentIndex === index ? { border: `2px solid ${video.color}` } : {}
               return (
                 <div
+                  key={index}
                   onClick={() => goToIndex(index)}
                   className={classes.portrait}
                   style={{ backgroundImage: `url(${video.imageSrc})`, ...border }}
@@ -100,11 +102,29 @@ export function VotingPage() {
     setCurrentIndex(index)
   }
 
-  function addScore() {
+  function toggleHasLiked() {
     const SCORE_TO_ADD = 100
     const newScores = [...scores]
-    newScores[currentIndex] += SCORE_TO_ADD
-    setScores(newScores)
+    const newLikes = [...hasLiked]
+    if (!hasLiked[currentIndex]) {
+      newScores[currentIndex] += SCORE_TO_ADD
+      setScores(newScores)
+      newLikes[currentIndex] = true
+      setHasLiked(newLikes)
+    } else {
+      newScores[currentIndex] -= SCORE_TO_ADD
+      setScores(newScores)
+      newLikes[currentIndex] = false
+      setHasLiked(newLikes)
+    }
+  }
+  
+  function handleVideoEnd() {
+    if (currentIndex === videos.length - 1) {
+      moveToPage()
+    } else {
+      setCurrentIndex(currentIndex + 1)
+    }
   }
 }
 
