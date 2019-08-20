@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import ReactPlayer from 'react-player'
-import AwesomeSlider from 'react-awesome-slider'
 import { makeStyles } from '@material-ui/styles'
 import Fab from '@material-ui/core/Fab'
 import ThumbUp from '@material-ui/icons/ThumbUp'
@@ -9,21 +8,22 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import IconButton from '@material-ui/core/IconButton'
 import classNames from 'classnames'
 
+
 const videos = [
   {
     videoUrl: 'https://springerthon-wdf.s3.eu-central-1.amazonaws.com/videos/M_Heller_vertical+scooter.MP4',
-    imageSrc: '',
+    imageSrc: 'wdf_images/fighter-martin.png',
     name: 'Martin Heller',
     color: 'yellow',
   },
   {
     videoUrl: 'https://springerthon-wdf.s3.eu-central-1.amazonaws.com/videos/Video+zu+Eroller+von+Heuzeroth.mp4',
-    imageSrc: '',
+    imageSrc: 'wdf_images/fighter-thomas.png',
     name: 'Thomas Heuzeroth',
     color: 'pink',
   },
-  { videoUrl: '', imageSrc: '', name: 'Sonja Gillert', color: 'blue' },
-  { videoUrl: '', imageSrc: '', name: 'Karl Lauterbach', color: 'blue' },
+  { videoUrl: 'https://springerthon-wdf.s3.eu-central-1.amazonaws.com/videos/sonja.mov', imageSrc: 'wdf_images/fighter-sonja.png', name: 'Sonja Gillert', color: 'blue' },
+  // { videoUrl: '', imageSrc: '', name: 'Karl Lauterbach', color: 'blue' },
 ];
 
 export function VotingPage() {
@@ -37,19 +37,14 @@ export function VotingPage() {
           <div className={classes.logo}>Score</div>
           <div className={classes.score}>Score</div>
         </header>
-        <ReactPlayer
-          url="https://springerthon-wdf.s3.eu-central-1.amazonaws.com/videos/Video+zu+Eroller+von+Heuzeroth.mp4"
-          controls
-          width="100%"
-          height="100%"
-        />
+        <ReactPlayer url={videos[currentIndex].videoUrl} controls width="100%" height="100%" />
         <div className={classNames(classes.iconButton, classes.buttonLeft)}>
-          <IconButton color='secondary'>
+          <IconButton color="secondary" onClick={handleOnClickLeft}>
             <KeyboardArrowLeft />
           </IconButton>
         </div>
         <div className={classNames(classes.iconButton, classes.buttonRight)}>
-          <IconButton color='secondary'>
+          <IconButton color="secondary" onClick={handleOnClickRight}>
             <KeyboardArrowRight />
           </IconButton>
         </div>
@@ -58,14 +53,27 @@ export function VotingPage() {
             <ThumbUp />
           </Fab>
           <div className={classes.participants}>
-            <div className={classes.portrait} />
-            <div className={classes.portrait} />
-            <div className={classes.portrait} />
+            {videos.map((video) => (
+              <div className={classes.portrait} style={{backgroundImage: `url(${video.imageSrc})`}}/>
+            ))}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
+
+  function handleOnClickLeft() {
+    if (currentIndex !== 0) {
+      setCurrentIndex(currentIndex - 1)
+    }
+  }
+
+  function handleOnClickRight() {
+    console.log('current index', currentIndex);
+    if (currentIndex !== videos.length) {
+      setCurrentIndex(currentIndex + 1)
+    }
+  }
 }
 
 const useStyles = makeStyles({
@@ -102,6 +110,7 @@ const useStyles = makeStyles({
     height: '50px',
     backgroundColor: 'blue',
     borderRadius: '50%',
+    backgroundSize: 'contain',
   },
   participants: {
     marginTop: '10px',
@@ -117,9 +126,9 @@ const useStyles = makeStyles({
     zIndex: 1000,
   },
   buttonLeft: {
-    left: '10px'
+    left: '10px',
   },
   buttonRight: {
-    right: '10px'
-  }
+    right: '10px',
+  },
 });
