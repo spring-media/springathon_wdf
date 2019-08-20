@@ -8,7 +8,6 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import IconButton from '@material-ui/core/IconButton'
 import classNames from 'classnames'
 
-
 const videos = [
   {
     videoUrl: 'https://springerthon-wdf.s3.eu-central-1.amazonaws.com/videos/M_Heller_vertical+scooter.MP4',
@@ -22,9 +21,14 @@ const videos = [
     name: 'Thomas Heuzeroth',
     color: 'pink',
   },
-  { videoUrl: 'https://springerthon-wdf.s3.eu-central-1.amazonaws.com/videos/sonja.mov', imageSrc: 'wdf_images/fighter-sonja.png', name: 'Sonja Gillert', color: 'blue' },
+  {
+    videoUrl: 'https://springerthon-wdf.s3.eu-central-1.amazonaws.com/videos/sonja.mov',
+    imageSrc: 'wdf_images/fighter-sonja.png',
+    name: 'Sonja Gillert',
+    color: 'blue',
+  },
   // { videoUrl: '', imageSrc: '', name: 'Karl Lauterbach', color: 'blue' },
-];
+]
 
 export function VotingPage() {
   const classes = useStyles()
@@ -69,7 +73,7 @@ export function VotingPage() {
   }
 
   function handleOnClickRight() {
-    console.log('current index', currentIndex);
+    console.log('current index', currentIndex)
     if (currentIndex !== videos.length) {
       setCurrentIndex(currentIndex + 1)
     }
@@ -116,7 +120,7 @@ const useStyles = makeStyles({
     marginTop: '10px',
     display: 'flex',
     '& > :not(:last-child)': {
-      marginRight: '10px',
+      marginRight: '20px',
     },
   },
   iconButton: {
@@ -131,4 +135,4 @@ const useStyles = makeStyles({
   buttonRight: {
     right: '10px',
   },
-});
+})
