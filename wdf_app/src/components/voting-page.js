@@ -8,6 +8,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import IconButton from '@material-ui/core/IconButton'
 import Chip from '@material-ui/core/Chip'
 import classNames from 'classnames'
+import { Participants } from './participants'
 
 const videos = [
   {
@@ -69,19 +70,7 @@ export function VotingPage({ moveToPage }) {
           <Fab color={hasLiked[currentIndex] ? 'secondary' : 'primary'} onClick={toggleHasLiked}>
             <ThumbUp />
           </Fab>
-          <div className={classes.participants}>
-            {videos.map((video, index) => {
-              const border = currentIndex === index ? { border: `2px solid ${video.color}` } : {}
-              return (
-                <div
-                  key={index}
-                  onClick={() => goToIndex(index)}
-                  className={classes.portrait}
-                  style={{ backgroundImage: `url(${video.imageSrc})`, ...border }}
-                />
-              )
-            })}
-          </div>
+          <Participants data={videos} onClick={goToIndex} currentIndex={currentIndex} />
         </div>
       </div>
     </div>
@@ -118,7 +107,7 @@ export function VotingPage({ moveToPage }) {
       setHasLiked(newLikes)
     }
   }
-  
+
   function handleVideoEnd() {
     if (currentIndex === videos.length - 1) {
       moveToPage()
@@ -137,9 +126,6 @@ const useStyles = makeStyles({
     right: '30px',
     top: '10px',
   },
-  slider: {
-    width: '400px',
-  },
   container: {
     display: 'flex',
     flexDirection: 'row',
@@ -156,20 +142,6 @@ const useStyles = makeStyles({
     left: '50%',
     zIndex: 1000,
     transform: 'translateX(-50%)',
-  },
-  portrait: {
-    width: '50px',
-    height: '50px',
-    backgroundColor: 'blue',
-    borderRadius: '50%',
-    backgroundSize: 'contain',
-  },
-  participants: {
-    marginTop: '10px',
-    display: 'flex',
-    '& > :not(:last-child)': {
-      marginRight: '20px',
-    },
   },
   iconButton: {
     position: 'absolute',
