@@ -18,16 +18,16 @@ const videos = [
     color: 'yellow',
   },
   {
-    videoUrl: 'https://springerthon-wdf.s3.eu-central-1.amazonaws.com/videos/Video+zu+Eroller+von+Heuzeroth.mp4',
-    imageSrc: 'wdf_images/fighter-thomas.png',
-    name: 'Thomas Heuzeroth',
-    color: 'pink',
-  },
-  {
     videoUrl: 'https://springerthon-wdf.s3.eu-central-1.amazonaws.com/videos/sonja.mov',
     imageSrc: 'wdf_images/fighter-sonja.png',
     name: 'Sonja Gillert',
     color: 'blue',
+  },
+  {
+    videoUrl: 'https://springerthon-wdf.s3.eu-central-1.amazonaws.com/videos/Video+zu+Eroller+von+Heuzeroth.mp4',
+    imageSrc: 'wdf_images/fighter-thomas.png',
+    name: 'Thomas Heuzeroth',
+    color: 'pink',
   },
   // { videoUrl: '', imageSrc: '', name: 'Karl Lauterbach', color: 'blue' },
 ]
@@ -42,43 +42,37 @@ export function VotingPage() {
   const [hasLiked, setHasLiked] = useState([false, false, false])
 
   return isGameOn ? (
-    <div className={classes.container}>
-      <div className={classes.videoContainer}>
-        <header>
-          <div className={classes.logo}>
-            <img alt="Die Welt logo" src={'wdf_images/logo-welt.svg'} />
-          </div>
-          <div className={classes.score}>
-            <Chip label={scores[currentIndex]} icon={<ThumbUp color="secondary" />} />
-          </div>
-        </header>
-        <ReactPlayer url={videos[currentIndex].videoUrl} controls width="100%" height="100%" onEnded={handleVideoEnd} />
-        {currentIndex !== 0 && (
-          <div className={classNames(classes.iconButton, classes.buttonLeft)}>
-            <IconButton color="secondary" onClick={handleOnClickLeft}>
-              <KeyboardArrowLeft />
-            </IconButton>
-          </div>
-        )}
-        {currentIndex !== videos.length - 1 && (
-          <div className={classNames(classes.iconButton, classes.buttonRight)}>
-            <IconButton color="secondary" onClick={handleOnClickRight}>
-              <KeyboardArrowRight />
-            </IconButton>
-          </div>
-        )}
-        <div className={classes.menu}>
-          <FloatingButton onClick={() => toggleHasLiked(currentIndex)} isLiked={hasLiked[currentIndex]} />
-          <Participants data={videos} onClick={goToIndex} currentIndex={currentIndex} hasLiked={hasLiked} />
+    <>
+      <header>
+        <div className={classes.logo}>
+          <img alt="Die Welt logo" src={'wdf_images/logo-welt.svg'} />
         </div>
+        <div className={classes.score}>
+          <Chip label={scores[currentIndex]} icon={<ThumbUp color="secondary" />} />
+        </div>
+      </header>
+      <ReactPlayer url={videos[currentIndex].videoUrl} controls width="100%" height="100%" onEnded={handleVideoEnd} />
+      {currentIndex !== 0 && (
+        <div className={classNames(classes.iconButton, classes.buttonLeft)}>
+          <IconButton color="secondary" onClick={handleOnClickLeft}>
+            <KeyboardArrowLeft />
+          </IconButton>
+        </div>
+      )}
+      {currentIndex !== videos.length - 1 && (
+        <div className={classNames(classes.iconButton, classes.buttonRight)}>
+          <IconButton color="secondary" onClick={handleOnClickRight}>
+            <KeyboardArrowRight />
+          </IconButton>
+        </div>
+      )}
+      <div className={classes.menu}>
+        <FloatingButton onClick={() => toggleHasLiked(currentIndex)} isLiked={hasLiked[currentIndex]} />
+        <Participants data={videos} onClick={goToIndex} currentIndex={currentIndex} hasLiked={hasLiked} />
       </div>
-    </div>
+    </>
   ) : (
-    <div className={classes.container}>
-      <div className={classes.videoContainer}>
-        <Participants data={videos} showThumbs={true} onClick={toggleHasLiked} hasLiked={hasLiked} />
-      </div>
-    </div>
+    <Participants data={videos} showThumbs={true} onClick={toggleHasLiked} hasLiked={hasLiked} />
   )
 
   function handleOnClickLeft() {
@@ -130,16 +124,6 @@ const useStyles = makeStyles({
     height: '50px',
     right: '30px',
     top: '10px',
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  videoContainer: {
-    width: '400px',
-    height: '715px',
-    position: 'relative',
   },
   menu: {
     position: 'absolute',
