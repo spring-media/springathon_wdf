@@ -34,7 +34,7 @@ const videos = [
 
 const startingScores = [500, 400, 200]
 
-export function VotingPage() {
+export function VotingPage({ moveToPage }) {
   const classes = useStyles()
   const [isGameOn, setIsGameOn] = useState(true)
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -75,6 +75,7 @@ export function VotingPage() {
     </>
   ) : (
     <div className={classes.resultPage}>
+      <button className={classes.goToButton} onClick={moveToPage} />
     </div>
   )
 
@@ -165,5 +166,15 @@ const useStyles = makeStyles({
     height: '715px',
     background: 'url("wdf_images/full-results-page.png")',
     backgroundSize: 'contain',
+    position: 'relative',
+  },
+  goToButton: {
+    backgroundColor: 'pink',
+    position: 'absolute',
+    width: '200px',
+    height: '50px',
+    bottom: '20px',
+    transform: 'translateX(-50%)',
+    opacity: 0,
   },
 })
