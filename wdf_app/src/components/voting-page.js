@@ -69,7 +69,7 @@ export function VotingPage({ moveToPage }) {
         </div>
       )}
       <div className={classes.menu}>
-        <FloatingButton onClick={() => toggleHasLiked(currentIndex)} isLiked={hasLiked[currentIndex]} />
+        <FloatingButton className={classes.fab} onClick={() => toggleHasLiked(currentIndex)} isLiked={hasLiked[currentIndex]} />
         <Participants data={videos} onClick={goToIndex} currentIndex={currentIndex} hasLiked={hasLiked} />
       </div>
     </>
@@ -159,7 +159,6 @@ const useStyles = makeStyles({
     width: 80,
     height: 80,
     marginBottom: 20,
-    backgroundColor: 'red'
   },
   resultPage: {
     width: '400px',
