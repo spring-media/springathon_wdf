@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles'
 
 export function OverviewPage() {
   const classes = useClasses()
-  return <div className={classes.root}>overview</div>
+  return <div className={classes.root}></div>
 }
 
 const useClasses = makeStyles({
