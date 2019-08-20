@@ -42,7 +42,9 @@ export function VotingPage() {
           <div className={classes.logo}>
             <img src={'wdf_images/logo-welt.svg'} />
           </div>
-          <div className={classes.score}>Score</div>
+          <div className={classes.score}>
+            <Chip label={'100'} icon={<ThumbUp color='secondary'/>} />
+          </div>
         </header>
         <ReactPlayer url={videos[currentIndex].videoUrl} controls width="100%" height="100%" />
         {currentIndex !== 0 && (
@@ -102,9 +104,8 @@ const useStyles = makeStyles({
     position: 'absolute',
     width: '50px',
     height: '50px',
-    backgroundColor: 'blue',
-    right: 0,
-    top: 0,
+    right: '30px',
+    top: '10px',
   },
   slider: {
     width: '400px',
