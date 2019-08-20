@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { IntroPage } from './components/intro-page'
 import { VotingPage } from './components/voting-page'
+import { OverviewPage } from './components/overview-page'
 import { makeStyles } from '@material-ui/styles'
 import './App.css'
 
 const pages = {
   introPage: 'intro_page',
   votingPage: 'voting_page',
-  resultPage: 'result_page',
+  overviewPage: 'overview_page',
 }
 
 function App() {
@@ -18,7 +19,8 @@ function App() {
       <div className={classes.container}>
         <div className={classes.videoContainer}>
           {page === pages.introPage && <IntroPage moveToPage={moveToVoting} />}
-          {page === pages.votingPage && <VotingPage />}
+          {page === pages.votingPage && <VotingPage moveToPage={moveToOverview}/>}
+          {page === pages.overviewPage && <OverviewPage />}
         </div>
       </div>
     </div>
@@ -26,6 +28,10 @@ function App() {
 
   function moveToVoting() {
     setPage(pages.votingPage)
+  }
+
+  function moveToOverview() {
+    setPage(pages.overviewPage)
   }
 }
 
