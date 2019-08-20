@@ -31,9 +31,12 @@ const videos = [
   // { videoUrl: '', imageSrc: '', name: 'Karl Lauterbach', color: 'blue' },
 ]
 
+const scores = [500, 400, 200]
+
 export function VotingPage() {
   const classes = useStyles()
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [scores, setScores] = useState([500, 200, 400])
 
   return (
     <div className={classes.container}>
@@ -43,7 +46,7 @@ export function VotingPage() {
             <img src={'wdf_images/logo-welt.svg'} />
           </div>
           <div className={classes.score}>
-            <Chip label={'100'} icon={<ThumbUp color='secondary'/>} />
+            <Chip label={scores[currentIndex]} icon={<ThumbUp color="secondary" />} />
           </div>
         </header>
         <ReactPlayer url={videos[currentIndex].videoUrl} controls width="100%" height="100%" />
@@ -62,7 +65,7 @@ export function VotingPage() {
           </div>
         )}
         <div className={classes.menu}>
-          <Fab color="secondary">
+          <Fab color="secondary" onClick={addScore}>
             <ThumbUp />
           </Fab>
           <div className={classes.participants}>
@@ -95,6 +98,13 @@ export function VotingPage() {
   }
   function goToIndex(index) {
     setCurrentIndex(index)
+  }
+
+  function addScore() {
+    const SCORE_TO_ADD = 100
+    const newScores = [...scores]
+    newScores[currentIndex] += SCORE_TO_ADD
+    setScores(newScores)
   }
 }
 
