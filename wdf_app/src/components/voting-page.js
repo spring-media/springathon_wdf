@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import ReactPlayer from 'react-player'
 import { makeStyles } from '@material-ui/styles'
-import Fab from '@material-ui/core/Fab'
 import ThumbUp from '@material-ui/icons/ThumbUp'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
@@ -9,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Chip from '@material-ui/core/Chip'
 import classNames from 'classnames'
 import { Participants } from './participants'
+import { FloatingButton } from './floating-button'
 
 const videos = [
   {
@@ -34,13 +34,14 @@ const videos = [
 
 const startingScores = [500, 400, 200]
 
-export function VotingPage({ moveToPage }) {
+export function VotingPage() {
   const classes = useStyles()
+  const [isGameOn, setIsGameOn] = useState(true)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [scores, setScores] = useState(startingScores)
   const [hasLiked, setHasLiked] = useState([false, false, false])
 
-  return (
+  return isGameOn ? (
     <div className={classes.container}>
       <div className={classes.videoContainer}>
         <header>
@@ -67,11 +68,15 @@ export function VotingPage({ moveToPage }) {
           </div>
         )}
         <div className={classes.menu}>
-          <Fab color={hasLiked[currentIndex] ? 'secondary' : 'primary'} onClick={toggleHasLiked}>
-            <ThumbUp />
-          </Fab>
-          <Participants data={videos} onClick={goToIndex} currentIndex={currentIndex} />
+          <FloatingButton onClick={() => toggleHasLiked(currentIndex)} isLiked={hasLiked[currentIndex]} />
+          <Participants data={videos} onClick={goToIndex} currentIndex={currentIndex} hasLiked={hasLiked} />
         </div>
+      </div>
+    </div>
+  ) : (
+    <div className={classes.container}>
+      <div className={classes.videoContainer}>
+        <Participants data={videos} showThumbs={true} onClick={toggleHasLiked} hasLiked={hasLiked} />
       </div>
     </div>
   )
@@ -91,26 +96,26 @@ export function VotingPage({ moveToPage }) {
     setCurrentIndex(index)
   }
 
-  function toggleHasLiked() {
+  function toggleHasLiked(index) {
     const SCORE_TO_ADD = 100
     const newScores = [...scores]
     const newLikes = [...hasLiked]
-    if (!hasLiked[currentIndex]) {
+    if (!hasLiked[index]) {
       newScores[currentIndex] += SCORE_TO_ADD
       setScores(newScores)
-      newLikes[currentIndex] = true
+      newLikes[index] = true
       setHasLiked(newLikes)
     } else {
-      newScores[currentIndex] -= SCORE_TO_ADD
+      newScores[index] -= SCORE_TO_ADD
       setScores(newScores)
-      newLikes[currentIndex] = false
+      newLikes[index] = false
       setHasLiked(newLikes)
     }
   }
 
   function handleVideoEnd() {
     if (currentIndex === videos.length - 1) {
-      moveToPage()
+      setIsGameOn(false)
     } else {
       setCurrentIndex(currentIndex + 1)
     }

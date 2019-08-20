@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { IntroPage } from './components/intro-page'
 import { VotingPage } from './components/voting-page'
-import { ResultsPage } from './components/results-page'
 import './App.css'
 
 const pages = {
@@ -16,17 +15,12 @@ function App() {
   return (
     <div className="App">
       {page === pages.introPage && <IntroPage moveToPage={moveToVoting} />}
-      {page === pages.votingPage && <VotingPage moveToPage={moveToEnd} />}
-      {page === pages.resultPage && <ResultsPage />}
+      {page === pages.votingPage && <VotingPage />}
     </div>
   )
 
   function moveToVoting() {
     setPage(pages.votingPage)
-  }
-
-  function moveToEnd() {
-    setPage(pages.resultPage)
   }
 }
 
