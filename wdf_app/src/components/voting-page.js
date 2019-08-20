@@ -13,22 +13,43 @@ export function VotingPage() {
     <div className={classes.container}>
       <AwesomeSlider className={classes.container} bullets={false}>
         <div>
-          <ReactPlayer url="sample-video.mp4" controls width={400} height={250} />
+          <ReactPlayer url="sample-video.mp4" controls width="100%" height="100%" />
         </div>
         <div>
-          video2
-          <ReactPlayer url="sample-video.mp4" controls />
+          <ReactPlayer url="sample-video.mp4" controls width="100%" height="100%" />
         </div>
       </AwesomeSlider>
-      <Fab>
-        <ThumbUp />
-      </Fab>
+      <div className={classes.menu}>
+        <div className={classes.portrait}></div>
+        <Fab color="secondary">
+          <ThumbUp />
+        </Fab>
+        <div className={classes.portrait}></div>
+      </div>
     </div>
   )
 }
 
 const useStyles = makeStyles({
   container: {
-    width: '400px',
+    width: '300px',
+    position: 'relative',
   },
-})
+  menu: {
+    position: 'absolute',
+    bottom: 80,
+    left: '50%',
+    zIndex: 1000,
+    transform: 'translateX(-50%)',
+    display: 'flex',
+    '& > :not(:last-child)': {
+      marginRight: '10px'
+    }
+  },
+  portrait: {
+    width: '50px',
+    height: '50px',
+    backgroundColor: 'blue',
+    borderRadius: '50%',
+  }
+});
