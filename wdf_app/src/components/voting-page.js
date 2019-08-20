@@ -6,8 +6,8 @@ import ThumbUp from '@material-ui/icons/ThumbUp'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import IconButton from '@material-ui/core/IconButton'
+import Chip from '@material-ui/core/Chip'
 import classNames from 'classnames'
-
 
 const videos = [
   {
@@ -22,9 +22,14 @@ const videos = [
     name: 'Thomas Heuzeroth',
     color: 'pink',
   },
-  { videoUrl: 'https://springerthon-wdf.s3.eu-central-1.amazonaws.com/videos/sonja.mov', imageSrc: 'wdf_images/fighter-sonja.png', name: 'Sonja Gillert', color: 'blue' },
+  {
+    videoUrl: 'https://springerthon-wdf.s3.eu-central-1.amazonaws.com/videos/sonja.mov',
+    imageSrc: 'wdf_images/fighter-sonja.png',
+    name: 'Sonja Gillert',
+    color: 'blue',
+  },
   // { videoUrl: '', imageSrc: '', name: 'Karl Lauterbach', color: 'blue' },
-];
+]
 
 export function VotingPage() {
   const classes = useStyles()
@@ -34,33 +39,48 @@ export function VotingPage() {
     <div className={classes.container}>
       <div className={classes.videoContainer}>
         <header>
-          <div className={classes.logo}>Score</div>
-          <div className={classes.score}>Score</div>
+          <div className={classes.logo}>
+            <img src={'wdf_images/logo-welt.svg'} />
+          </div>
+          <div className={classes.score}>
+            <Chip label={'100'} icon={<ThumbUp color='secondary'/>} />
+          </div>
         </header>
         <ReactPlayer url={videos[currentIndex].videoUrl} controls width="100%" height="100%" />
-        <div className={classNames(classes.iconButton, classes.buttonLeft)}>
-          <IconButton color="secondary" onClick={handleOnClickLeft}>
-            <KeyboardArrowLeft />
-          </IconButton>
-        </div>
-        <div className={classNames(classes.iconButton, classes.buttonRight)}>
-          <IconButton color="secondary" onClick={handleOnClickRight}>
-            <KeyboardArrowRight />
-          </IconButton>
-        </div>
+        {currentIndex !== 0 && (
+          <div className={classNames(classes.iconButton, classes.buttonLeft)}>
+            <IconButton color="secondary" onClick={handleOnClickLeft}>
+              <KeyboardArrowLeft />
+            </IconButton>
+          </div>
+        )}
+        {currentIndex !== videos.length - 1 && (
+          <div className={classNames(classes.iconButton, classes.buttonRight)}>
+            <IconButton color="secondary" onClick={handleOnClickRight}>
+              <KeyboardArrowRight />
+            </IconButton>
+          </div>
+        )}
         <div className={classes.menu}>
           <Fab color="secondary">
             <ThumbUp />
           </Fab>
           <div className={classes.participants}>
-            {videos.map((video) => (
-              <div className={classes.portrait} style={{backgroundImage: `url(${video.imageSrc})`}}/>
-            ))}
+            {videos.map((video, index) => {
+              const border = currentIndex === index ? { border: `2px solid ${video.color}` } : {}
+              return (
+                <div
+                  onClick={() => goToIndex(index)}
+                  className={classes.portrait}
+                  style={{ backgroundImage: `url(${video.imageSrc})`, ...border }}
+                />
+              )
+            })}
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 
   function handleOnClickLeft() {
     if (currentIndex !== 0) {
@@ -69,22 +89,23 @@ export function VotingPage() {
   }
 
   function handleOnClickRight() {
-    console.log('current index', currentIndex);
-    if (currentIndex !== videos.length) {
+    if (currentIndex !== videos.length - 1) {
       setCurrentIndex(currentIndex + 1)
     }
+  }
+  function goToIndex(index) {
+    setCurrentIndex(index)
   }
 }
 
 const useStyles = makeStyles({
-  logo: { position: 'absolute', left: 0, top: 0, width: '100px', height: '50px', backgroundColor: 'red' },
+  logo: { position: 'absolute', left: '10px', top: '10px', width: '10px', height: '50px' },
   score: {
     position: 'absolute',
     width: '50px',
     height: '50px',
-    backgroundColor: 'blue',
-    right: 0,
-    top: 0,
+    right: '30px',
+    top: '10px',
   },
   slider: {
     width: '400px',
@@ -96,6 +117,7 @@ const useStyles = makeStyles({
   },
   videoContainer: {
     width: '400px',
+    height: '715px',
     position: 'relative',
   },
   menu: {
@@ -116,7 +138,7 @@ const useStyles = makeStyles({
     marginTop: '10px',
     display: 'flex',
     '& > :not(:last-child)': {
-      marginRight: '10px',
+      marginRight: '20px',
     },
   },
   iconButton: {
@@ -131,4 +153,4 @@ const useStyles = makeStyles({
   buttonRight: {
     right: '10px',
   },
-});
+})
